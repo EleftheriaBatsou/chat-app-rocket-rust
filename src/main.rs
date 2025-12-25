@@ -36,8 +36,6 @@ async fn events(queue: &State<Sender<Message>>, mut end: Shutdown) -> EventStrea
                 },
                 _ = &mut end => break,
             };
-
-            yield Event::json(&msg);
         }
     }
 }
@@ -54,5 +52,4 @@ fn rocket() -> _ {
     rocket::build()
         .manage(channel::<Message>(1024).0)
         .mount("/", routes![post, events])
-        .mount("/", FileServer::from(relative!("static")))
 }
